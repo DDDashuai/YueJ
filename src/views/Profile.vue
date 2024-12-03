@@ -208,11 +208,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
-import { useHealthStore } from '../stores/health'
-import { useMedicineStore } from '../stores/medicine'
+import { useUserStore } from '@/stores/user'
+import { useHealthStore } from '@/stores/health'
+import { useMedicineStore } from '@/stores/medicine'
 import { showToast, showDialog } from 'vant'
-import AvatarLetter from '../components/AvatarLetter.vue'
+import AvatarLetter from '@/components/AvatarLetter.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

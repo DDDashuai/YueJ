@@ -118,13 +118,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
-import { useMedicineStore } from '../stores/medicine'
-import { useHealthStore } from '../stores/health'
-import { useChatStore } from '../stores/chat'
-import { formatDateTime, formatDate } from '../utils/date'
+import { useUserStore } from '@/stores/user'
+import { useMedicineStore } from '@/stores/medicine'
+import { useHealthStore } from '@/stores/health'
+import { useChatStore } from '@/stores/chat'
+import { formatDateTime, formatDate } from '@/utils/date'
 import { showToast } from 'vant'
-import AvatarLetter from '../components/AvatarLetter.vue'
+import AvatarLetter from '@/components/AvatarLetter.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

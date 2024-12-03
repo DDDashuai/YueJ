@@ -1,7 +1,11 @@
+import './assets/favicon.js'
+import './assets/styles/index.css'
+import 'vant/lib/index.css'
+
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import App from './App.vue';
-import router from './router';
+import App from '@/App.vue';
+import router from '@/router';
 
 // 引入Vant组件
 import {
@@ -36,8 +40,8 @@ import {
   DropdownItem,
 } from 'vant';
 
-// 引入样式
-import 'vant/lib/index.css';
+const baseUrl = window.__VITE_BASE_URL__ || '/YueJ/';
+window.__dynamic_base__ = baseUrl;
 
 const app = createApp(App);
 

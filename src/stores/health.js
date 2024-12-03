@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import request from '../utils/request'
-import { useUserStore } from './user'
+import request from '@/utils/request'
+import { useUserStore } from '@/stores/user'
 
 export const useHealthStore = defineStore('health', () => {
   const userStore = useUserStore()

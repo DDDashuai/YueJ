@@ -86,8 +86,8 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { showSuccessToast, showFailToast, showToast } from 'vant'
-import { useUserStore } from '../stores/user'
-import { useMedicineStore } from '../stores/medicine'
+import { useUserStore } from '@/stores/user'
+import { useMedicineStore } from '@/stores/medicine'
 
 const router = useRouter()
 const userStore = useUserStore()

@@ -10,9 +10,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import TabBar from './TabBar.vue'
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import TabBar from '@/components/TabBar.vue'
 
 const route = useRoute()
 

@@ -1,14 +1,13 @@
 import axios from 'axios'
 import { showToast } from 'vant'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? 'http://121.41.91.14/api'  // 生产环境使用 ECS 公网 IP
+    : 'http://localhost:8080/api',    // 开发环境
   timeout: 10000,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  withCredentials: true
 })
 
 // 请求拦截器

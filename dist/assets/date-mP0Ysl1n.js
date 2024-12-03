@@ -1,1 +1,0 @@
-const n=t=>{if(!t)return"";const e=new Date(t);return`${e.getFullYear()}-${r(e.getMonth()+1)}-${r(e.getDate())}`},a=t=>{if(!t)return"";const e=new Date(t);return`${n(e)} ${r(e.getHours())}:${r(e.getMinutes())}`},r=t=>t<10?`0${t}`:t;export{n as a,a as f};

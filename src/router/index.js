@@ -1,55 +1,64 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { useUserStore } from '../stores/user'
+import Login from '../views/Login.vue'
+import Layout from '../components/Layout.vue'
+import Home from '../views/Home.vue'
+import Chat from '../views/Chat.vue'
+import Health from '../views/Health.vue'
+import MedicineReminder from '../views/MedicineReminder.vue'
+import Profile from '../views/Profile.vue'
+import Register from '../views/Register.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 
 const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: Login
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/Register.vue')
+    component: Register
   },
   {
     path: '/forgot-password',
     name: 'ForgotPassword',
-    component: () => import('../views/ForgotPassword.vue')
+    component: ForgotPassword
   },
   {
     path: '/',
-    component: () => import('../components/Layout.vue'),
+    component: Layout,
     redirect: '/home',
     children: [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('../views/Home.vue'),
+        component: Home,
         meta: { requiresAuth: true }
       },
       {
         path: 'chat',
         name: 'Chat',
-        component: () => import('../views/Chat.vue'),
+        component: Chat,
         meta: { requiresAuth: true }
       },
       {
         path: 'health',
         name: 'Health',
-        component: () => import('../views/Health.vue'),
+        component: Health,
         meta: { requiresAuth: true }
       },
       {
         path: 'medicine',
         name: 'Medicine',
-        component: () => import('../views/MedicineReminder.vue'),
+        component: MedicineReminder,
         meta: { requiresAuth: true }
       },
       {
         path: 'profile',
         name: 'Profile',
-        component: () => import('../views/Profile.vue'),
+        component: Profile,
         meta: { requiresAuth: true }
       }
     ]
@@ -57,14 +66,11 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
-// 导航守卫
 router.beforeEach(async (to, from, next) => {
-  console.log('Route change:', { from: from.path, to: to.path })
-  
   const userStore = useUserStore()
   
   if (to.meta.requiresAuth) {
@@ -75,11 +81,6 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   next()
-})
-
-// 添加后置守卫
-router.afterEach((to, from) => {
-  console.log('Route changed to:', to.path)
 })
 
 export default router 

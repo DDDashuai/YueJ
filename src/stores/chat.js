@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import request from '../utils/request'
+import request from '@/utils/request'
 
 export const useChatStore = defineStore('chat', () => {
   const chatHistory = ref([])

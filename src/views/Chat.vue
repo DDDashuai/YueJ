@@ -159,12 +159,12 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
-import { useChatStore } from '../stores/chat'
-import { useUserStore } from '../stores/user'
+import { useChatStore } from '@/stores/chat'
+import { useUserStore } from '@/stores/user'
 import { showToast, showDialog } from 'vant'
-import { formatDate } from '../utils/date'
+import { formatDate } from '@/utils/date'
 import { useRouter } from 'vue-router'
-import AvatarLetter from '../components/AvatarLetter.vue'
+import AvatarLetter from '@/components/AvatarLetter.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
