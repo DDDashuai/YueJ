@@ -4,8 +4,8 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://121.41.91.14'  // 使用 HTTPS
-    : 'http://localhost:8080',
+    ? 'http://121.41.91.14:8080/api'  // 直接使用 8080 端口，暂时不用 HTTPS
+    : 'http://localhost:8080/api',
   timeout: 10000,
   withCredentials: true
 })
