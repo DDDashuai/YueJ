@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'http://121.41.91.14'  // 移除多余的 /api
+    ? 'https://121.41.91.14'  // 使用 HTTPS
     : 'http://localhost:8080',
   timeout: 10000,
   withCredentials: true
