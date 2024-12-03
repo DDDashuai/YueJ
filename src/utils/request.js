@@ -4,8 +4,8 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'http://121.41.91.14/api'  // 生产环境使用 ECS 公网 IP
-    : 'http://localhost:8080/api',    // 开发环境
+    ? 'http://121.41.91.14'  // 移除多余的 /api
+    : 'http://localhost:8080',
   timeout: 10000,
   withCredentials: true
 })
