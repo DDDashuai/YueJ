@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'http://121.41.91.14:8080'
+    ? 'https://121.41.91.14/api'
     : 'http://localhost:8080',
   timeout: 30000,
   withCredentials: true,
@@ -29,6 +29,7 @@ request.interceptors.request.use(
     return config
   },
   error => {
+    console.error('Request error:', error)
     return Promise.reject(error)
   }
 )
@@ -44,8 +45,11 @@ request.interceptors.response.use(
     return res.data
   },
   error => {
+    console.error('Response error:', error)
     if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
       showToast('请求超时，请重试')
+    } else if (error.code === 'ERR_NETWORK') {
+      showToast('网络连接失败，请检查网络设置')
     } else if (error.response?.status === 401) {
       const userStore = useUserStore()
       userStore.logout()
