@@ -304,35 +304,35 @@ const onConfirmGender = (value) => {
 
 // 导航方法
 const showHealthRecord = () => {
-  router.push('/health')
+  router.push('/YueJ/health')
 }
 
 const toMedicineReminder = () => {
-  router.push('/medicine')
+  router.push('/YueJ/medicine')
 }
 
 const showMedicineHistory = () => {
-  router.push('/medicine/history')
+  router.push('/YueJ/medicine/history')
 }
 
 const showNotifications = () => {
-  router.push('/notifications')
+  router.push('/YueJ/notifications')
 }
 
 const showChatHistory = () => {
-  router.push('/chat')
+  router.push('/YueJ/chat')
 }
 
 const showNotificationSettings = () => {
-  router.push('/settings/notifications')
+  router.push('/YueJ/settings/notifications')
 }
 
 const showPrivacySettings = () => {
-  router.push('/settings/privacy')
+  router.push('/YueJ/settings/privacy')
 }
 
 const showAbout = () => {
-  router.push('/about')
+  router.push('/YueJ/about')
 }
 
 // 退出登录

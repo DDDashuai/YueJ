@@ -56,11 +56,11 @@ const active = ref(0)
 
 // 根据路由路径设置当前激活的标签
 const routeMap = {
-  '/': 0,
-  '/health': 1,
-  '/chat': 2,
-  '/medicine': 3,
-  '/profile': 4
+  '/YueJ/': 0,
+  '/YueJ/health': 1,
+  '/YueJ/chat': 2,
+  '/YueJ/medicine': 3,
+  '/YueJ/profile': 4
 }
 
 watch(() => route.path, (path) => {

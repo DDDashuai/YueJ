@@ -124,7 +124,7 @@ const validateConfirmPassword = (value) => {
 }
 
 const onClickLeft = () => {
-  router.back()
+  router.push('/YueJ/login')
 }
 
 const onSubmit = async () => {
@@ -142,7 +142,7 @@ const onSubmit = async () => {
         message: '是否立即登录？',
         showCancelButton: true,
       }).then(() => {
-        router.push('/login')
+        router.push('/YueJ/login')
       })
     }
   } catch (error) {

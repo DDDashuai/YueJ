@@ -17,7 +17,11 @@ import TabBar from '@/components/TabBar.vue'
 const route = useRoute()
 
 // 不需要显示TabBar的路由
-const hideTabBarRoutes = ['/login', '/register', '/forgot-password']
+const hideTabBarRoutes = [
+  '/YueJ/login', 
+  '/YueJ/register', 
+  '/YueJ/forgot-password'
+]
 
 const showTabBar = computed(() => {
   return !hideTabBarRoutes.includes(route.path)

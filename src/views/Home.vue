@@ -210,9 +210,9 @@ const markAsTaken = async (reminderId) => {
 }
 
 // 页面跳转
-const toHealthData = () => router.push('/health')
-const toMedicineReminder = () => router.push('/medicine')
-const toChat = () => router.push('/chat')
+const toHealthData = () => router.push('/YueJ/health')
+const toMedicineReminder = () => router.push('/YueJ/medicine')
+const toChat = () => router.push('/YueJ/chat')
 
 // 打开聊天详情
 const openChatDetail = async (chat) => {

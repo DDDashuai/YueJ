@@ -107,7 +107,7 @@ const form = reactive({
 })
 
 const onClickLeft = () => {
-  router.back()
+  router.push('/YueJ/login')
 }
 
 const formatDateTime = (datetime) => {
@@ -118,7 +118,7 @@ const onSubmit = async (values) => {
   try {
     if (!userStore.user?.userId) {
       showToast('请先登录');
-      router.push('/login');
+      router.push('/YueJ/login');
       return;
     }
 

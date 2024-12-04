@@ -108,11 +108,11 @@ const onSubmit = async () => {
 }
 
 const toRegister = () => {
-  router.push('/register')
+  router.push('/YueJ/register')
 }
 
 const toForgotPassword = () => {
-  router.push('/forgot-password')
+  router.push('/YueJ/forgot-password')
 }
 </script>
 

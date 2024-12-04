@@ -181,7 +181,7 @@ const resetPassword = async () => {
 }
 
 const toLogin = () => {
-  router.replace('/login')
+  router.replace('/YueJ/login')
 }
 </script>
 

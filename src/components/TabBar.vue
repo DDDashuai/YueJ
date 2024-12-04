@@ -2,14 +2,14 @@
   <van-tabbar v-model="active" route @change="onChange">
     <van-tabbar-item 
       name="home"
-      to="/home" 
+      to="/YueJ/home" 
       icon="home-o"
     >
       首页
     </van-tabbar-item>
     <van-tabbar-item 
       name="health"
-      to="/health" 
+      to="/YueJ/health" 
       icon="records"
     >
       健康
@@ -23,14 +23,14 @@
     </van-tabbar-item>
     <van-tabbar-item 
       name="medicine"
-      to="/medicine" 
+      to="/YueJ/medicine" 
       icon="clock-o"
     >
       用药
     </van-tabbar-item>
     <van-tabbar-item 
       name="profile"
-      to="/profile" 
+      to="/YueJ/profile" 
       icon="user-o"
     >
       我的
@@ -48,11 +48,11 @@ const active = ref(0)
 
 // 路由映射到tabbar索引
 const routeMap = {
-  '/home': 0,
-  '/health': 1,
-  '/chat': 2,
-  '/medicine': 3,
-  '/profile': 4
+  '/YueJ/home': 0,
+  '/YueJ/health': 1,
+  '/YueJ/chat': 2,
+  '/YueJ/medicine': 3,
+  '/YueJ/profile': 4
 }
 
 // 监听路由变化，更新active
@@ -61,7 +61,7 @@ watch(() => route.path, (path) => {
 }, { immediate: true })
 
 const handleChatClick = () => {
-  router.push('/chat')
+  router.push('/YueJ/chat')
 }
 
 const onChange = (index) => {

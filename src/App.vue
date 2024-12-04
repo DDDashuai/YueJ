@@ -16,10 +16,10 @@ const userStore = useUserStore()
 
 onMounted(async () => {
   const isAuth = await userStore.checkAuth()
-  if (!isAuth && router.currentRoute.value.path !== '/login') {
-    router.push('/login')
-  } else if (isAuth && router.currentRoute.value.path === '/') {
-    router.push('/home')
+  if (!isAuth && router.currentRoute.value.path !== '/YueJ/login') {
+    router.push('/YueJ/login')
+  } else if (isAuth && router.currentRoute.value.path === '/YueJ/') {
+    router.push('/YueJ/home')
   }
 })
 </script>

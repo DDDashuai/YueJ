@@ -237,7 +237,7 @@ onMounted(async () => {
 const loadData = async () => {
   if (!userStore.user?.userId) {
     showToast('请先登录')
-    router.push('/login')
+    router.push('/YueJ/login')
     return
   }
 
@@ -282,7 +282,7 @@ const updateHealthDisplay = (data) => {
 const onSubmit = async () => {
   if (!userStore.user?.userId) {
     showToast('请先登录')
-    router.push('/login')
+    router.push('/YueJ/login')
     return
   }
 

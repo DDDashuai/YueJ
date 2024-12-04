@@ -12,24 +12,24 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 
 const routes = [
   {
-    path: '/login',
+    path: '/YueJ/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/register',
+    path: '/YueJ/register',
     name: 'Register',
     component: Register
   },
   {
-    path: '/forgot-password',
+    path: '/YueJ/forgot-password',
     name: 'ForgotPassword',
     component: ForgotPassword
   },
   {
-    path: '/',
+    path: '/YueJ/',
     component: Layout,
-    redirect: '/home',
+    redirect: '/YueJ/home',
     children: [
       {
         path: 'home',
@@ -62,6 +62,10 @@ const routes = [
         meta: { requiresAuth: true }
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/YueJ/'
   }
 ]
 
@@ -76,7 +80,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const isAuth = await userStore.checkAuth()
     if (!isAuth) {
-      next('/login')
+      next('/YueJ/login')
       return
     }
   }

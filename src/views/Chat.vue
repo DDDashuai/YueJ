@@ -223,14 +223,14 @@ const scrollToBottom = async () => {
 }
 
 const onClickLeft = () => {
-  router.back()
+  router.push('/YueJ/login')
 }
 
 const sendMessage = async () => {
   if (!inputMessage.value.trim()) return
   if (!userStore.user?.userId) {
     showToast('请先登录')
-    router.push('/login')
+    router.push('/YueJ/login')
     return
   }
   
@@ -270,7 +270,7 @@ const beforeUpload = (file) => {
 const afterUpload = async (file) => {
   if (!userStore.user?.userId) {
     showToast('请先登录')
-    router.push('/login')
+    router.push('/YueJ/login')
     return
   }
 
@@ -339,7 +339,7 @@ const createNewChat = async () => {
   try {
     if (!userStore.user?.userId) {
       showToast('请先登录')
-      router.push('/login')
+      router.push('/YueJ/login')
       return
     }
     
