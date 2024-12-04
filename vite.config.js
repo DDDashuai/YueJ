@@ -26,14 +26,8 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://yuej.xin',
-        changeOrigin: true,
-        secure: false,
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
+        target: 'http://localhost:8080',
+        changeOrigin: true
       }
     }
   }

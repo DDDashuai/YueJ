@@ -3,16 +3,12 @@ import { showToast } from 'vant'
 import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://yuej.xin'
-    : 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 30000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
+    'Cache-Control': 'no-cache'
   }
 })
 
@@ -25,12 +21,6 @@ request.interceptors.request.use(
     }
     if (config.method === 'get') {
       config.params = { ...config.params, _t: Date.now() }
-      config.headers = {
-        ...config.headers,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
     }
     return config
   },
@@ -59,7 +49,7 @@ request.interceptors.response.use(
     } else if (error.response?.status === 401) {
       const userStore = useUserStore()
       userStore.logout()
-      window.location.href = '/YueJ/login'
+      window.location.href = '/login'
     } else {
       showToast(error.response?.data?.message || error.message || '请求失败')
     }
