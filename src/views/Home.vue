@@ -157,13 +157,19 @@ onMounted(async () => {
   if (userStore.user?.userId) {
     console.log('Starting to load all data for user:', userStore.user.userId)
     try {
-      const [healthSuccess, reminderSuccess, chatSuccess, recentChatsSuccess] = await Promise.all([
-        loadHealthData(),
-        loadReminders(),
-        loadChatHistory(),
-        loadRecentChats()
-      ])
-      console.log('Data load results:', {
+      const healthSuccess = await loadHealthData()
+      console.log('Health data loaded:', healthSuccess)
+
+      const reminderSuccess = await loadReminders()
+      console.log('Reminders loaded:', reminderSuccess)
+
+      const chatSuccess = await loadChatHistory()
+      console.log('Chat history loaded:', chatSuccess)
+
+      const recentChatsSuccess = await loadRecentChats()
+      console.log('Recent chats loaded:', recentChatsSuccess)
+
+      console.log('All data load results:', {
         health: healthSuccess,
         reminders: reminderSuccess,
         chat: chatSuccess,
@@ -199,10 +205,16 @@ const loadHealthData = async () => {
 
 const loadReminders = async () => {
   console.log('Loading reminders for user:', userStore.user?.userId)
+  if (!userStore.user?.userId) {
+    console.warn('No userId available for loading reminders')
+    return false
+  }
+
   try {
     const success = await medicineStore.getActiveReminders(userStore.user.userId)
-    console.log('Reminders load result:', success)
+    console.log('Active reminders response:', success)
     if (success) {
+      console.log('Active reminders data:', medicineStore.activeReminders)
       activeReminders.value = medicineStore.activeReminders
       return true
     }
@@ -215,10 +227,16 @@ const loadReminders = async () => {
 
 const loadChatHistory = async () => {
   console.log('Loading chat history for user:', userStore.user?.userId)
+  if (!userStore.user?.userId) {
+    console.warn('No userId available for loading chat history')
+    return false
+  }
+
   try {
     const success = await chatStore.getChatHistory(userStore.user.userId)
-    console.log('Chat history load result:', success)
+    console.log('Chat history response:', success)
     if (success) {
+      console.log('Chat history data:', chatStore.chatHistory)
       chatHistory.value = chatStore.chatHistory
       return true
     }
@@ -239,9 +257,13 @@ const loadRecentChats = async () => {
   loading.value = true
   try {
     const chats = await chatStore.getChatGroups(userStore.user.userId)
-    console.log('Recent chats loaded:', chats)
-    recentChats.value = chats.slice(0, 3)
-    return true
+    console.log('Recent chats response:', chats)
+    if (chats && chats.length > 0) {
+      recentChats.value = chats.slice(0, 3)
+      console.log('Recent chats data:', recentChats.value)
+      return true
+    }
+    return false
   } catch (error) {
     console.error('Error loading recent chats:', error)
     return false
