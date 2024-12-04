@@ -11,26 +11,38 @@
     
     <div class="chat-content" ref="chatContainer">
       <div class="message-list">
-        <div class="message" :class="{'message-left': message.type === 'ai', 'message-right': message.type === 'user'}" v-for="message in chatStore.chatHistory" :key="message.createdAt">
+        <div 
+          v-for="message in chatStore.chatHistory" 
+          :key="message.createdAt"
+          class="message"
+          :class="{'message-left': message.type === 'ai', 'message-right': message.type === 'user'}"
+        >
+          <!-- AI头像 -->
           <div v-if="message.type === 'ai'" class="avatar">
             <AvatarLetter username="AI" :size="40" />
           </div>
+
+          <!-- 消息内容 -->
           <div class="message-content" :class="message.type">
             <template v-if="message.loading">
               <div class="typing">
                 <van-loading type="spinner" size="20" />
-                {{ message.message }}
+                <span>{{ message.message }}</span>
               </div>
             </template>
             <template v-else>
+              <!-- 用户消息 -->
               <template v-if="message.type === 'user'">
                 {{ message.message }}
               </template>
+              <!-- AI回复 -->
               <template v-else>
                 {{ message.response }}
               </template>
             </template>
           </div>
+
+          <!-- 用户头像 -->
           <div v-if="message.type === 'user'" class="avatar">
             <AvatarLetter :username="userStore.user?.username || '?'" :size="40" />
           </div>
