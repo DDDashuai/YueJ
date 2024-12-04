@@ -7,7 +7,11 @@ const request = axios.create({
     ? 'http://121.41.91.14'
     : 'http://localhost:8080',
   timeout: 10000,
-  withCredentials: true
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
 })
 
 // 请求拦截器
@@ -17,12 +21,6 @@ request.interceptors.request.use(
     if (userStore.token) {
       config.headers['Authorization'] = `Bearer ${userStore.token}`
     }
-    
-    // OPTIONS请求不需要Content-Type
-    if (config.method !== 'options') {
-      config.headers['Content-Type'] = 'application/json'
-    }
-    
     return config
   },
   error => {
