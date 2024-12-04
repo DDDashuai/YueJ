@@ -1,23 +1,4 @@
 import axios from 'axios'
-<<<<<<< HEAD
-
-// 创建axios实例
-const service = axios.create({
-  // 根据环境变量设置baseURL
-  baseURL: import.meta.env.MODE === 'development' 
-    ? 'http://localhost:8080'  // 本地开发环境
-    : 'https://api.your-domain.com',  // 生产环境
-  timeout: 5000
-})
-
-// 请求拦截器
-service.interceptors.request.use(
-  config => {
-    // 从localStorage获取token
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
-=======
 import { showToast } from 'vant'
 import { useUserStore } from '@/stores/user'
 
@@ -41,23 +22,15 @@ request.interceptors.request.use(
     }
     if (config.method === 'get') {
       config.params = { ...config.params, _t: Date.now() }
->>>>>>> e957888 (Initial commit)
     }
     return config
   },
   error => {
-<<<<<<< HEAD
-    console.log(error)
-=======
     console.error('Request error:', error)
->>>>>>> e957888 (Initial commit)
     return Promise.reject(error)
   }
 )
 
-<<<<<<< HEAD
-export default service 
-=======
 // 响应拦截器
 request.interceptors.response.use(
   response => {
@@ -86,4 +59,3 @@ request.interceptors.response.use(
 )
 
 export default request 
->>>>>>> e957888 (Initial commit)

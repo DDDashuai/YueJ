@@ -1,11 +1,5 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-<<<<<<< HEAD
-
-export default defineConfig({
-  plugins: [vue()],
-  base: '/YueJ/',
-=======
 import { resolve } from 'path'
 
 export default defineConfig({
@@ -25,5 +19,4 @@ export default defineConfig({
       }
     }
   }
->>>>>>> e957888 (Initial commit)
 })
