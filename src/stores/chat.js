@@ -100,23 +100,26 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   const sendMessage = async (message) => {
+    console.log('Sending message:', message)
     if (!currentGroupId.value) {
+      console.log('No current group, creating new one')
       currentGroupId.value = await createChatGroup()
     }
     message.chatGroupId = currentGroupId.value
     
     try {
       if (!message.userId) {
-        throw new Error('用户未登录');
+        throw new Error('用户未登录')
       }
 
-      // 添加用户消息
-      chatHistory.value.push({
+      // 添加用户消息到历史记录
+      const userMessage = {
         type: 'user',
         message: message.message,
         createdAt: new Date().toISOString(),
         chatGroupId: currentGroupId.value
-      })
+      }
+      chatHistory.value.push(userMessage)
       
       // 添加loading消息
       const loadingMessage = {
@@ -126,16 +129,18 @@ export const useChatStore = defineStore('chat', () => {
       chatHistory.value.push(loadingMessage)
       
       // 发送请求
+      console.log('Sending request to API')
       const res = await request.post('/api/chat/text', message)
+      console.log('API response:', res)
       
       // 更新AI回复
       const index = chatHistory.value.indexOf(loadingMessage)
       if (index !== -1) {
         chatHistory.value[index] = {
           type: 'ai',
-          message: res.data.message,
-          response: res.data.response,
-          createdAt: res.data.createdAt,
+          message: res.message,
+          response: res.response,
+          createdAt: res.createdAt || new Date().toISOString(),
           loading: false,
           chatGroupId: currentGroupId.value
         }
@@ -143,6 +148,8 @@ export const useChatStore = defineStore('chat', () => {
       
       return res
     } catch (error) {
+      console.error('Send message error:', error)
+      // 移除loading消息
       chatHistory.value = chatHistory.value.filter(msg => msg !== loadingMessage)
       throw error
     }

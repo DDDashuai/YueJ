@@ -223,7 +223,7 @@ const scrollToBottom = async () => {
 }
 
 const onClickLeft = () => {
-  router.push('/YueJ/login')
+  router.push('/YueJ/home')
 }
 
 const sendMessage = async () => {
@@ -236,17 +236,41 @@ const sendMessage = async () => {
   
   sending.value = true
   try {
-    await chatStore.sendMessage({
+    // 保存当前消息，用于显示
+    const currentMessage = inputMessage.value
+    inputMessage.value = ''
+
+    const response = await chatStore.sendMessage({
       userId: userStore.user.userId,
-      message: inputMessage.value,
+      message: currentMessage,
       type: 'user',
       conversationType: medicineType.value
     })
-    inputMessage.value = ''
+
+    console.log('Message sent response:', response)
+    
+    // 如果发送成功但没有立即获取到AI回复，主动刷新聊天记录
+    if (!response?.response) {
+      await new Promise(resolve => setTimeout(resolve, 1000)) // 等待1秒
+      await refreshChat()
+    }
   } catch (error) {
-    showToast('发送失败')
+    console.error('Send message error:', error)
+    showToast('发送失败，请重试')
   } finally {
     sending.value = false
+  }
+}
+
+// 添加刷新聊天记录的方法
+const refreshChat = async () => {
+  try {
+    if (chatStore.currentGroupId) {
+      await chatStore.loadGroupChat(userStore.user.userId, chatStore.currentGroupId)
+      scrollToBottom()
+    }
+  } catch (error) {
+    console.error('Refresh chat error:', error)
   }
 }
 
