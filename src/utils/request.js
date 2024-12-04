@@ -9,7 +9,10 @@ const request = axios.create({
   timeout: 30000,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
   }
 })
 
@@ -22,6 +25,12 @@ request.interceptors.request.use(
     }
     if (config.method === 'get') {
       config.params = { ...config.params, _t: Date.now() }
+      config.headers = {
+        ...config.headers,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
     }
     return config
   },
@@ -50,7 +59,7 @@ request.interceptors.response.use(
     } else if (error.response?.status === 401) {
       const userStore = useUserStore()
       userStore.logout()
-      window.location.href = '/login'
+      window.location.href = '/YueJ/login'
     } else {
       showToast(error.response?.data?.message || error.message || '请求失败')
     }
