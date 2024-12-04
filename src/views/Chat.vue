@@ -27,7 +27,7 @@
             <template v-if="message.loading">
               <div class="typing">
                 <van-loading type="spinner" size="20" />
-                <span>{{ message.message }}</span>
+                <span>AI正在思考...</span>
               </div>
             </template>
             <template v-else>
@@ -37,7 +37,7 @@
               </template>
               <!-- AI回复 -->
               <template v-else>
-                {{ message.response }}
+                <div class="ai-response" v-html="formatMessage(message.response)"></div>
               </template>
             </template>
           </div>
@@ -405,6 +405,13 @@ const createNewChat = async () => {
   }
 }
 
+// 添加格式化消息的方法
+const formatMessage = (text) => {
+  if (!text) return ''
+  // 将换行符转换为 <br>
+  return text.replace(/\n/g, '<br>')
+}
+
 defineOptions({
   name: 'Chat'
 })
@@ -650,8 +657,14 @@ defineOptions({
 }
 
 .ai-response {
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.ai-response :deep(br) {
+  content: '';
+  display: block;
+  margin: 8px 0;
 }
 
 @supports (-webkit-touch-callout: none) {

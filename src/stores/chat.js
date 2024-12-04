@@ -116,13 +116,12 @@ export const useChatStore = defineStore('chat', () => {
       }
 
       // 添加用户消息到历史记录
-      const userMessage = {
+      chatHistory.value.push({
         type: 'user',
         message: message.message,
         createdAt: new Date().toISOString(),
         chatGroupId: currentGroupId.value
-      }
-      chatHistory.value.push(userMessage)
+      })
       
       // 添加loading消息
       loadingMessage = {
@@ -140,21 +139,17 @@ export const useChatStore = defineStore('chat', () => {
       
       console.log('API response:', res)
       
-      // 检查响应格式
-      if (!res) {
-        throw new Error('Empty response')
-      }
-      
       // 更新AI回复
       const index = chatHistory.value.findIndex(msg => msg === loadingMessage)
       if (index !== -1) {
+        // 使用返回的数据构造AI回复消息
         chatHistory.value[index] = {
           type: 'ai',
-          message: message.message,  // 保存用户的问题
-          response: res.response,    // AI的回复
-          createdAt: new Date().toISOString(),
-          loading: false,
-          chatGroupId: currentGroupId.value
+          message: res.message,
+          response: res.response,    // 这里是AI的回复内容
+          createdAt: res.createdAt || new Date().toISOString(),
+          chatGroupId: res.chatGroupId,
+          loading: false
         }
       }
       
