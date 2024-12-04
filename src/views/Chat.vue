@@ -239,6 +239,7 @@ const sendMessage = async () => {
   
   sending.value = true
   try {
+    console.log('Starting to send message:', messageText)
     const response = await chatStore.sendMessage({
       userId: userStore.user.userId,
       message: messageText,
@@ -250,6 +251,7 @@ const sendMessage = async () => {
     
     // 如果没有立即获取到AI回复，等待一会儿后刷新
     if (!response?.response) {
+      console.log('No immediate response, waiting to refresh...')
       await new Promise(resolve => setTimeout(resolve, 2000))
       await refreshChat()
     }
@@ -259,9 +261,9 @@ const sendMessage = async () => {
     scrollToBottom()
   } catch (error) {
     console.error('Failed to send message:', error)
-    showToast('发送失败，请重试')
-    // 可以选择是否要把消息放回输入框
-    // inputMessage.value = messageText
+    showToast(error.message || '发送失败，请重试')
+    // 恢复消息到输入框
+    inputMessage.value = messageText
   } finally {
     sending.value = false
   }

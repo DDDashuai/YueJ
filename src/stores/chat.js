@@ -107,6 +107,7 @@ export const useChatStore = defineStore('chat', () => {
       if (!currentGroupId.value) {
         console.log('Creating new chat group...')
         currentGroupId.value = await createChatGroup()
+        console.log('Created chat group:', currentGroupId.value)
       }
       message.chatGroupId = currentGroupId.value
       
@@ -131,13 +132,21 @@ export const useChatStore = defineStore('chat', () => {
       chatHistory.value.push(loadingMessage)
       
       // 发送请求
-      console.log('Sending message to API:', message)
-      const res = await request.post('/api/chat/text', message)
+      console.log('Sending message to API:', {
+        ...message,
+        chatGroupId: currentGroupId.value
+      })
+
+      const res = await request.post('/api/chat/text', {
+        ...message,
+        chatGroupId: currentGroupId.value
+      })
+      
       console.log('API response:', res)
       
       // 检查响应格式
-      if (!res || !res.response) {
-        throw new Error('Invalid response format')
+      if (!res) {
+        throw new Error('Empty response')
       }
       
       // 更新AI回复
@@ -146,7 +155,7 @@ export const useChatStore = defineStore('chat', () => {
         chatHistory.value[index] = {
           type: 'ai',
           message: res.message || '',
-          response: res.response,
+          response: res.response || res,
           createdAt: res.createdAt || new Date().toISOString(),
           loading: false,
           chatGroupId: currentGroupId.value
@@ -158,7 +167,10 @@ export const useChatStore = defineStore('chat', () => {
       console.error('Send message error:', error)
       // 移除loading消息
       if (loadingMessage) {
-        chatHistory.value = chatHistory.value.filter(msg => msg !== loadingMessage)
+        const index = chatHistory.value.findIndex(msg => msg === loadingMessage)
+        if (index !== -1) {
+          chatHistory.value.splice(index, 1)
+        }
       }
       throw error
     }
