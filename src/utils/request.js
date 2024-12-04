@@ -4,15 +4,15 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? window.location.protocol === 'https:' 
-      ? 'https://121.41.91.14'
-      : 'http://121.41.91.14'
+    ? 'http://121.41.91.14:8080'
     : 'http://localhost:8080',
-  timeout: 10000,
+  timeout: 30000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache'
   }
 })
 
@@ -22,6 +22,9 @@ request.interceptors.request.use(
     const userStore = useUserStore()
     if (userStore.token) {
       config.headers['Authorization'] = `Bearer ${userStore.token}`
+    }
+    if (config.method === 'get') {
+      config.params = { ...config.params, _t: Date.now() }
     }
     return config
   },
@@ -41,12 +44,15 @@ request.interceptors.response.use(
     return res.data
   },
   error => {
-    if (error.response?.status === 401) {
+    if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
+      showToast('请求超时，请重试')
+    } else if (error.response?.status === 401) {
       const userStore = useUserStore()
       userStore.logout()
       window.location.href = '/login'
+    } else {
+      showToast(error.response?.data?.message || error.message || '请求失败')
     }
-    showToast(error.response?.data?.message || error.message || '请求失败')
     return Promise.reject(error)
   }
 )
