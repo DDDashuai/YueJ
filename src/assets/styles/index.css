@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+<<<<<<< HEAD
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -12,6 +13,8 @@ html {
   width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+=======
+>>>>>>> e957888 (Initial commit)
 }
 
 body {
@@ -21,15 +24,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f7f8fa;
+<<<<<<< HEAD
   height: 100%;
   width: 100%;
   overflow-x: hidden;
   position: relative;
+=======
+>>>>>>> e957888 (Initial commit)
 }
 
 #app {
   width: 100%;
   height: 100%;
+<<<<<<< HEAD
   position: relative;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -53,4 +60,6 @@ body {
 input, textarea {
   -webkit-user-select: auto;
   user-select: auto;
+=======
+>>>>>>> e957888 (Initial commit)
 } 

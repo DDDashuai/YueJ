@@ -1,7 +1,29 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+<<<<<<< HEAD
 
 export default defineConfig({
   plugins: [vue()],
   base: '/YueJ/',
+=======
+import { resolve } from 'path'
+
+export default defineConfig({
+  base: '/YueJ/',
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
+    }
+  },
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
+  }
+>>>>>>> e957888 (Initial commit)
 })

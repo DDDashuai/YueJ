@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { createRouter, createWebHistory } from 'vue-router'
+=======
+import { createRouter, createWebHashHistory } from 'vue-router'
+>>>>>>> e957888 (Initial commit)
 import { useUserStore } from '../stores/user'
 import Login from '../views/Login.vue'
 import Layout from '../components/Layout.vue'
@@ -66,7 +70,11 @@ const routes = [
 ]
 
 const router = createRouter({
+<<<<<<< HEAD
   history: createWebHistory(import.meta.env.BASE_URL),
+=======
+  history: createWebHashHistory(),
+>>>>>>> e957888 (Initial commit)
   routes
 })
 
