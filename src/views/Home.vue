@@ -145,16 +145,26 @@ const loading = ref(false)
 const recentChats = ref([])
 
 onMounted(async () => {
+  console.log('Initial token:', userStore.token)
   if (userStore.token) {
     await userStore.getUserInfo()
   }
+  console.log('User after getUserInfo:', userStore.user)
   if (userStore.user?.userId) {
-    await Promise.all([
-      loadHealthData(),
-      loadReminders(),
-      loadChatHistory(),
-      loadRecentChats()
-    ])
+    console.log('Starting to load data for user:', userStore.user.userId)
+    try {
+      await loadHealthData() // 先单独测试这个
+      // await Promise.all([
+      //   loadHealthData(),
+      //   loadReminders(),
+      //   loadChatHistory(),
+      //   loadRecentChats()
+      // ])
+    } catch (error) {
+      console.error('Error loading data:', error)
+    }
+  } else {
+    console.warn('No user ID available')
   }
 })
 
