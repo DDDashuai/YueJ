@@ -148,36 +148,44 @@ onMounted(async () => {
   console.log('Initial token:', userStore.token)
   if (userStore.token) {
     await userStore.getUserInfo()
+    console.log('User info loaded:', userStore.user)
+  } else {
+    console.warn('No token found')
+    return // 如果没有token，直接返回
   }
-  console.log('User after getUserInfo:', userStore.user)
+
   if (userStore.user?.userId) {
-    console.log('Starting to load data for user:', userStore.user.userId)
+    console.log('Starting to load health data for user:', userStore.user.userId)
     try {
-      await loadHealthData() // 先单独测试这个
-      // await Promise.all([
-      //   loadHealthData(),
-      //   loadReminders(),
-      //   loadChatHistory(),
-      //   loadRecentChats()
-      // ])
+      const success = await loadHealthData()
+      console.log('Health data load success:', success)
     } catch (error) {
-      console.error('Error loading data:', error)
+      console.error('Error loading health data:', error)
     }
   } else {
-    console.warn('No user ID available')
+    console.warn('No user ID available after loading user info')
   }
 })
 
 const loadHealthData = async () => {
+  console.log('loadHealthData called with userId:', userStore.user?.userId)
+  if (!userStore.user?.userId) {
+    console.warn('No userId available in loadHealthData')
+    return false
+  }
+
   try {
-    console.log('Loading health data for user:', userStore.user?.userId)
     const success = await healthStore.getLatestHealth(userStore.user.userId)
-    console.log('Health data load result:', success, healthStore.healthData)
+    console.log('getLatestHealth result:', success)
     if (success && healthStore.healthData) {
+      console.log('Updating health display with:', healthStore.healthData)
       updateHealthDisplay(healthStore.healthData)
+      return true
     }
+    return false
   } catch (error) {
-    console.error('加载健康数据失败:', error)
+    console.error('Health data load error:', error)
+    return false
   }
 }
 

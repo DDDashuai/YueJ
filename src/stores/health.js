@@ -29,24 +29,27 @@ export const useHealthStore = defineStore('health', () => {
   }
 
   const getLatestHealth = async (userId) => {
+    console.log('getLatestHealth called with userId:', userId)
     try {
       if (!userId) {
         console.warn('No userId provided to getLatestHealth')
         throw new Error('用户ID不能为空')
       }
-      console.log('Fetching health data for user:', userId)
-      
+
+      const userStore = useUserStore()
+      console.log('Current token:', userStore.token)
+
       const res = await request.get(`/api/health/latest/${userId}`)
-      console.log('Health API response:', res)
-      
+      console.log('Health API raw response:', res)
+
       if (res) {
         healthData.value = res
-        console.log('Updated health data:', healthData.value)
+        console.log('Health data updated:', healthData.value)
         return true
       }
       return false
     } catch (error) {
-      console.error('获取最新健康数据失败:', error)
+      console.error('Health data fetch error:', error)
       return false
     }
   }
