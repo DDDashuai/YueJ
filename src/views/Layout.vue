@@ -9,35 +9,35 @@
     </div>
     
     <van-tabbar v-model="active" route>
-      <van-tabbar-item to="/" icon="home-o">
+      <van-tabbar-item to="/YueJ/" icon="home-o">
         <template #icon="props">
           <van-icon :name="props.active ? 'home' : 'home-o'" :color="props.active ? '#1989fa' : ''" />
         </template>
         <span :class="{ 'text-primary': active === 0 }">首页</span>
       </van-tabbar-item>
       
-      <van-tabbar-item to="/health" icon="chart-trending-o">
+      <van-tabbar-item to="/YueJ/health" icon="chart-trending-o">
         <template #icon="props">
           <van-icon :name="props.active ? 'chart-trending' : 'chart-trending-o'" :color="props.active ? '#1989fa' : ''" />
         </template>
         <span :class="{ 'text-primary': active === 1 }">健康数据</span>
       </van-tabbar-item>
       
-      <van-tabbar-item to="/chat" icon="chat-o">
+      <van-tabbar-item to="/YueJ/chat" icon="chat-o">
         <template #icon="props">
           <van-icon :name="props.active ? 'chat' : 'chat-o'" :color="props.active ? '#1989fa' : ''" />
         </template>
         <span :class="{ 'text-primary': active === 2 }">智能问诊</span>
       </van-tabbar-item>
       
-      <van-tabbar-item to="/medicine" icon="clock-o">
+      <van-tabbar-item to="/YueJ/medicine" icon="clock-o">
         <template #icon="props">
           <van-icon :name="props.active ? 'clock' : 'clock-o'" :color="props.active ? '#1989fa' : ''" />
         </template>
         <span :class="{ 'text-primary': active === 3 }">用药助手</span>
       </van-tabbar-item>
       
-      <van-tabbar-item to="/profile" icon="user-o">
+      <van-tabbar-item to="/YueJ/profile" icon="user-o">
         <template #icon="props">
           <van-icon :name="props.active ? 'user' : 'user-o'" :color="props.active ? '#1989fa' : ''" />
         </template>

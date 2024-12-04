@@ -317,6 +317,7 @@ const loadChatDetail = async (chat) => {
     }
     
     await chatStore.loadGroupChat(userStore.user.userId, chat.chat_group_id)
+    router.push('/YueJ/chat')
     await nextTick()
     scrollToBottom()
   } catch (error) {

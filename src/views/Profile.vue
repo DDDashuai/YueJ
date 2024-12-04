@@ -344,7 +344,7 @@ const handleLogout = () => {
   }).then(async (action) => {
     if (action === 'confirm') {
       await userStore.logout()
-      router.replace('/login')
+      router.replace('/YueJ/login')
     }
   })
 }

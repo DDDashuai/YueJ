@@ -29,7 +29,7 @@ const showTabBar = computed(() => {
 
 // 判断是否是聊天页面
 const isChat = computed(() => {
-  return route.path === '/chat'
+  return route.path === '/YueJ/chat'
 })
 </script>
 
