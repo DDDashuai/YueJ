@@ -11,31 +11,29 @@
     
     <div class="chat-content" ref="chatContainer">
       <div class="message-list">
-        <div 
-          v-for="(message, index) in chatStore.chatHistory"
-          :key="index"
-          :class="['message', message.type === 'user' ? 'message-right' : 'message-left']"
-        >
-          <template v-if="message.type === 'user'">
-            <div class="message-content user">
-              {{ message.message }}
-            </div>
-          </template>
-          <template v-else>
-            <div class="avatar">
-              <AvatarLetter
-                username="AI"
-                :size="40"
-              />
-            </div>
-            <div class="message-content ai">
-              <div v-if="message.loading" class="typing">
+        <div class="message" :class="{'message-left': message.type === 'ai', 'message-right': message.type === 'user'}" v-for="message in chatStore.chatHistory" :key="message.createdAt">
+          <div v-if="message.type === 'ai'" class="avatar">
+            <AvatarLetter username="AI" :size="40" />
+          </div>
+          <div class="message-content" :class="message.type">
+            <template v-if="message.loading">
+              <div class="typing">
                 <van-loading type="spinner" size="20" />
-                <span>AI正在思考...</span>
+                {{ message.message }}
               </div>
-              <div v-else class="ai-response">{{ message.response }}</div>
-            </div>
-          </template>
+            </template>
+            <template v-else>
+              <template v-if="message.type === 'user'">
+                {{ message.message }}
+              </template>
+              <template v-else>
+                {{ message.response }}
+              </template>
+            </template>
+          </div>
+          <div v-if="message.type === 'user'" class="avatar">
+            <AvatarLetter :username="userStore.user?.username || '?'" :size="40" />
+          </div>
         </div>
       </div>
     </div>

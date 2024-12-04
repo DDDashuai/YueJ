@@ -116,12 +116,13 @@ export const useChatStore = defineStore('chat', () => {
       }
 
       // 添加用户消息到历史记录
-      chatHistory.value.push({
+      const userMessage = {
         type: 'user',
         message: message.message,
         createdAt: new Date().toISOString(),
         chatGroupId: currentGroupId.value
-      })
+      }
+      chatHistory.value.push(userMessage)
       
       // 添加loading消息
       loadingMessage = {
@@ -132,11 +133,6 @@ export const useChatStore = defineStore('chat', () => {
       chatHistory.value.push(loadingMessage)
       
       // 发送请求
-      console.log('Sending message to API:', {
-        ...message,
-        chatGroupId: currentGroupId.value
-      })
-
       const res = await request.post('/api/chat/text', {
         ...message,
         chatGroupId: currentGroupId.value
@@ -152,10 +148,11 @@ export const useChatStore = defineStore('chat', () => {
       // 更新AI回复
       const index = chatHistory.value.findIndex(msg => msg === loadingMessage)
       if (index !== -1) {
+        // 根据实际返回的数据结构构造消息对象
         chatHistory.value[index] = {
           type: 'ai',
           message: res.message || '',
-          response: res.response || res,
+          response: res.response || '',  // 使用 response 字段作为 AI 回复
           createdAt: res.createdAt || new Date().toISOString(),
           loading: false,
           chatGroupId: currentGroupId.value
