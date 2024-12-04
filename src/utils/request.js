@@ -4,7 +4,9 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'http://121.41.91.14'
+    ? window.location.protocol === 'https:' 
+      ? 'https://121.41.91.14'
+      : 'http://121.41.91.14'
     : 'http://localhost:8080',
   timeout: 10000,
   withCredentials: true,
