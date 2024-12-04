@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user'
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://yuej.xin/api'
+    ? 'https://yuej.xin'
     : 'http://localhost:8080',
   timeout: 30000,
   withCredentials: true,
