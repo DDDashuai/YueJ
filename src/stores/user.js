@@ -57,10 +57,15 @@ export const useUserStore = defineStore('user', () => {
 
   const getUserInfo = async () => {
     try {
-      const res = await request.get('/api/user/info')
+      const res = await request.get('/api/user/info', {
+        headers: {
+          'Authorization': `Bearer ${token.value}`
+        }
+      })
       user.value = res
       return true
     } catch (error) {
+      console.error('获取用户信息失败:', error)
       return false
     }
   }

@@ -145,6 +145,9 @@ const loading = ref(false)
 const recentChats = ref([])
 
 onMounted(async () => {
+  if (userStore.token) {
+    await userStore.getUserInfo()
+  }
   if (userStore.user?.userId) {
     await Promise.all([
       loadHealthData(),
@@ -156,9 +159,15 @@ onMounted(async () => {
 })
 
 const loadHealthData = async () => {
-  const success = await healthStore.getLatestHealth(userStore.user.userId)
-  if (success && healthStore.healthData) {
-    updateHealthDisplay(healthStore.healthData)
+  try {
+    console.log('Loading health data for user:', userStore.user?.userId)
+    const success = await healthStore.getLatestHealth(userStore.user.userId)
+    console.log('Health data load result:', success, healthStore.healthData)
+    if (success && healthStore.healthData) {
+      updateHealthDisplay(healthStore.healthData)
+    }
+  } catch (error) {
+    console.error('加载健康数据失败:', error)
   }
 }
 

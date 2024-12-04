@@ -19,9 +19,7 @@ request.interceptors.request.use(
     if (userStore.token) {
       config.headers['Authorization'] = `Bearer ${userStore.token}`
     }
-    if (config.method === 'get') {
-      config.params = { ...config.params, _t: Date.now() }
-    }
+    console.log('Request config:', config)
     return config
   },
   error => {
@@ -34,25 +32,15 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     const res = response.data
+    console.log('Response:', res)
     if (res.code !== 200) {
-      showToast(res.message || '请求失败')
+      console.error('API错误:', res.message)
       return Promise.reject(new Error(res.message || '请求失败'))
     }
     return res.data
   },
   error => {
     console.error('Response error:', error)
-    if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
-      showToast('请求超时，请重试')
-    } else if (error.code === 'ERR_NETWORK') {
-      showToast('网络连接失败，请检查网络设置')
-    } else if (error.response?.status === 401) {
-      const userStore = useUserStore()
-      userStore.logout()
-      window.location.href = '/login'
-    } else {
-      showToast(error.response?.data?.message || error.message || '请求失败')
-    }
     return Promise.reject(error)
   }
 )

@@ -33,7 +33,11 @@ export const useHealthStore = defineStore('health', () => {
       if (!userId) {
         throw new Error('用户ID不能为空')
       }
-      const res = await request.get(`/api/health/latest/${userId}`)
+      const res = await request.get(`/api/health/latest/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${userStore.token}`
+        }
+      })
       if (res) {
         healthData.value = res
         console.log('最新健康数据:', res)
