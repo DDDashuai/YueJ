@@ -39,11 +39,23 @@ export const useMedicineStore = defineStore('medicine', () => {
   }
 
   const getActiveReminders = async (userId) => {
+    console.log('Getting active reminders for user:', userId)
     try {
+      if (!userId) {
+        console.warn('No userId provided for getting reminders')
+        throw new Error('用户ID不能为空')
+      }
+
       const res = await request.get(`/api/medicine/reminder/active/${userId}`)
-      activeReminders.value = res
-      return true
+      console.log('Active reminders response:', res)
+      if (res) {
+        activeReminders.value = res
+        console.log('Active reminders updated:', activeReminders.value)
+        return true
+      }
+      return false
     } catch (error) {
+      console.error('Error getting active reminders:', error)
       return false
     }
   }

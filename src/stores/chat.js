@@ -20,9 +20,32 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   const getChatGroups = async (userId) => {
-    const res = await request.get(`/api/chat/groups/${userId}`)
-    chatGroups.value = res
-    return res
+    console.log('Getting chat groups for user:', userId)
+    try {
+      const res = await request.get(`/api/chat/groups/${userId}`)
+      console.log('Chat groups response:', res)
+      chatGroups.value = res
+      return res
+    } catch (error) {
+      console.error('Error getting chat groups:', error)
+      return []
+    }
+  }
+
+  const getChatHistory = async (userId) => {
+    console.log('Getting chat history for user:', userId)
+    try {
+      const res = await request.get(`/api/chat/history/${userId}`)
+      console.log('Chat history response:', res)
+      if (res) {
+        chatHistory.value = res
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error('Error getting chat history:', error)
+      return false
+    }
   }
 
   const loadGroupChat = async (userId, groupId) => {
@@ -165,6 +188,7 @@ export const useChatStore = defineStore('chat', () => {
     currentGroupId,
     createChatGroup,
     getChatGroups,
+    getChatHistory,
     loadGroupChat,
     sendMessage,
     sendImage

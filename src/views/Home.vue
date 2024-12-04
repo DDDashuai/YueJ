@@ -151,19 +151,27 @@ onMounted(async () => {
     console.log('User info loaded:', userStore.user)
   } else {
     console.warn('No token found')
-    return // 如果没有token，直接返回
+    return
   }
 
   if (userStore.user?.userId) {
-    console.log('Starting to load health data for user:', userStore.user.userId)
+    console.log('Starting to load all data for user:', userStore.user.userId)
     try {
-      const success = await loadHealthData()
-      console.log('Health data load success:', success)
+      const [healthSuccess, reminderSuccess, chatSuccess, recentChatsSuccess] = await Promise.all([
+        loadHealthData(),
+        loadReminders(),
+        loadChatHistory(),
+        loadRecentChats()
+      ])
+      console.log('Data load results:', {
+        health: healthSuccess,
+        reminders: reminderSuccess,
+        chat: chatSuccess,
+        recentChats: recentChatsSuccess
+      })
     } catch (error) {
-      console.error('Error loading health data:', error)
+      console.error('Error loading data:', error)
     }
-  } else {
-    console.warn('No user ID available after loading user info')
   }
 })
 
@@ -190,28 +198,53 @@ const loadHealthData = async () => {
 }
 
 const loadReminders = async () => {
-  const success = await medicineStore.getActiveReminders(userStore.user.userId)
-  if (success) {
-    activeReminders.value = medicineStore.activeReminders
+  console.log('Loading reminders for user:', userStore.user?.userId)
+  try {
+    const success = await medicineStore.getActiveReminders(userStore.user.userId)
+    console.log('Reminders load result:', success)
+    if (success) {
+      activeReminders.value = medicineStore.activeReminders
+      return true
+    }
+    return false
+  } catch (error) {
+    console.error('Error loading reminders:', error)
+    return false
   }
 }
 
 const loadChatHistory = async () => {
-  const success = await chatStore.getChatHistory(userStore.user.userId)
-  if (success) {
-    chatHistory.value = chatStore.chatHistory
+  console.log('Loading chat history for user:', userStore.user?.userId)
+  try {
+    const success = await chatStore.getChatHistory(userStore.user.userId)
+    console.log('Chat history load result:', success)
+    if (success) {
+      chatHistory.value = chatStore.chatHistory
+      return true
+    }
+    return false
+  } catch (error) {
+    console.error('Error loading chat history:', error)
+    return false
   }
 }
 
 const loadRecentChats = async () => {
-  if (!userStore.user?.userId) return
+  console.log('Loading recent chats for user:', userStore.user?.userId)
+  if (!userStore.user?.userId) {
+    console.warn('No userId available for loading recent chats')
+    return false
+  }
   
   loading.value = true
   try {
     const chats = await chatStore.getChatGroups(userStore.user.userId)
-    recentChats.value = chats.slice(0, 3) // 只显示最近3条
+    console.log('Recent chats loaded:', chats)
+    recentChats.value = chats.slice(0, 3)
+    return true
   } catch (error) {
-    console.error('获取最近会诊记录失败:', error)
+    console.error('Error loading recent chats:', error)
+    return false
   } finally {
     loading.value = false
   }
