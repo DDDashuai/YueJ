@@ -234,29 +234,34 @@ const sendMessage = async () => {
     return
   }
   
+  const messageText = inputMessage.value.trim()
+  inputMessage.value = '' // 立即清空输入框
+  
   sending.value = true
   try {
-    // 保存当前消息，用于显示
-    const currentMessage = inputMessage.value
-    inputMessage.value = ''
-
     const response = await chatStore.sendMessage({
       userId: userStore.user.userId,
-      message: currentMessage,
+      message: messageText,
       type: 'user',
       conversationType: medicineType.value
     })
-
-    console.log('Message sent response:', response)
     
-    // 如果发送成功但没有立即获取到AI回复，主动刷新聊天记录
+    console.log('Message sent successfully:', response)
+    
+    // 如果没有立即获取到AI回复，等待一会儿后刷新
     if (!response?.response) {
-      await new Promise(resolve => setTimeout(resolve, 1000)) // 等待1秒
+      await new Promise(resolve => setTimeout(resolve, 2000))
       await refreshChat()
     }
+    
+    // 滚动到底部
+    await nextTick()
+    scrollToBottom()
   } catch (error) {
-    console.error('Send message error:', error)
+    console.error('Failed to send message:', error)
     showToast('发送失败，请重试')
+    // 可以选择是否要把消息放回输入框
+    // inputMessage.value = messageText
   } finally {
     sending.value = false
   }
@@ -266,11 +271,13 @@ const sendMessage = async () => {
 const refreshChat = async () => {
   try {
     if (chatStore.currentGroupId) {
+      console.log('Refreshing chat history...')
       await chatStore.loadGroupChat(userStore.user.userId, chatStore.currentGroupId)
+      await nextTick()
       scrollToBottom()
     }
   } catch (error) {
-    console.error('Refresh chat error:', error)
+    console.error('Failed to refresh chat:', error)
   }
 }
 

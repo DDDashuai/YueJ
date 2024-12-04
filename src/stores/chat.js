@@ -101,44 +101,51 @@ export const useChatStore = defineStore('chat', () => {
 
   const sendMessage = async (message) => {
     console.log('Sending message:', message)
-    if (!currentGroupId.value) {
-      console.log('No current group, creating new one')
-      currentGroupId.value = await createChatGroup()
-    }
-    message.chatGroupId = currentGroupId.value
+    let loadingMessage = null
     
     try {
+      if (!currentGroupId.value) {
+        console.log('Creating new chat group...')
+        currentGroupId.value = await createChatGroup()
+      }
+      message.chatGroupId = currentGroupId.value
+      
       if (!message.userId) {
         throw new Error('用户未登录')
       }
 
       // 添加用户消息到历史记录
-      const userMessage = {
+      chatHistory.value.push({
         type: 'user',
         message: message.message,
         createdAt: new Date().toISOString(),
         chatGroupId: currentGroupId.value
-      }
-      chatHistory.value.push(userMessage)
+      })
       
       // 添加loading消息
-      const loadingMessage = {
+      loadingMessage = {
         type: 'ai',
-        loading: true
+        loading: true,
+        message: 'AI正在思考...'
       }
       chatHistory.value.push(loadingMessage)
       
       // 发送请求
-      console.log('Sending request to API')
+      console.log('Sending message to API:', message)
       const res = await request.post('/api/chat/text', message)
       console.log('API response:', res)
       
+      // 检查响应格式
+      if (!res || !res.response) {
+        throw new Error('Invalid response format')
+      }
+      
       // 更新AI回复
-      const index = chatHistory.value.indexOf(loadingMessage)
+      const index = chatHistory.value.findIndex(msg => msg === loadingMessage)
       if (index !== -1) {
         chatHistory.value[index] = {
           type: 'ai',
-          message: res.message,
+          message: res.message || '',
           response: res.response,
           createdAt: res.createdAt || new Date().toISOString(),
           loading: false,
@@ -150,7 +157,9 @@ export const useChatStore = defineStore('chat', () => {
     } catch (error) {
       console.error('Send message error:', error)
       // 移除loading消息
-      chatHistory.value = chatHistory.value.filter(msg => msg !== loadingMessage)
+      if (loadingMessage) {
+        chatHistory.value = chatHistory.value.filter(msg => msg !== loadingMessage)
+      }
       throw error
     }
   }
