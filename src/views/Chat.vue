@@ -320,7 +320,7 @@ const loadChatDetail = async (chat) => {
     await nextTick()
     scrollToBottom()
   } catch (error) {
-    console.error('加载聊��记录失败:', error)
+    console.error('加载聊天记录失败:', error)
     showToast('加载聊天记录失败')
   }
 }

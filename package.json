@@ -6,6 +6,7 @@
   "homepage": "https://DDDashuai.github.io/YueJ/",
   "scripts": {
     "dev": "vite",
+    "dev:local": "vite --mode local",
     "build": "vite build",
     "preview": "vite preview --port 3000",
     "deploy": "npm run build && gh-pages -d dist"
